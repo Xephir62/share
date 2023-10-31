@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{parent()}}PROFIL
+{% endblock %}
+{% block body %}
+	<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
+		PROFIL
+	</h1>
+	<h2>
+		Email
+	</h2>
+	{{app.user.email}}
+
+
+	<h2>
+		mdp
+	</h2>
+	{{app.user.password}}
+
+
+	<p>vous avez
+		{{app.user.fichiers | length}}
+		fichiers.</p>
+	{% for fichier in app.user.fichiers%}
+		<p>
+			Nom du fichier :
+			{{fichier.nom}}
+		</p>
+
+		{% if fichier.categories | length > 0%}
+
+			{% for categorie in fichier.categories %}
+				<p>
+                Nom de la catégorie :
+					{{categorie.libelle}}
+                    {% endfor %}
+				</p>
+			{% else %}
+                <p> pas de catégories</p>
+                {% endif %}
+		{% endfor %}
+	
+{% endblock %}

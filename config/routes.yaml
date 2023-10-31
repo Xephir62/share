@@ -1,0 +1,17 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+
+categorie_list:
+    path: /categories
+    controller: App\Controller\CategorieController::listCategories
+    methods: [GET]
+    
+
+categorie_add:
+    path: /categorie/add
+    controller: App\Controller\CategorieController::addCategorie
+    methods: [GET, POST]
