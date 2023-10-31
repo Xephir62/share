@@ -40,10 +40,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Telecharger::class)]
     private Collection $telechargers;
 
+    #[ORM\ManyToMany(targetEntity: Fichier::class, mappedBy: 'user')]
+    private Collection $partager;
+
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
         $this->telechargers = new ArrayCollection();
+        $this->partager = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,6 +187,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($telecharger->getUser() === $this) {
                 $telecharger->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fichier>
+     */
+    public function getPartager(): Collection
+    {
+        return $this->partager;
+    }
+
+    public function addPartager(Fichier $partager): static
+    {
+        if (!$this->partager->contains($partager)) {
+            $this->partager->add($partager);
+            $partager->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartager(Fichier $partager): static
+    {
+        if ($this->partager->removeElement($partager)) {
+            $partager->removeUser($this);
         }
 
         return $this;

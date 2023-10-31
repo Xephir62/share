@@ -41,10 +41,14 @@ class Fichier
     #[ORM\Column]
     private ?float $taille = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'partager')]
+    private Collection $user;
+
     public function __construct()
     {
         $this->telechargers = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +181,30 @@ class Fichier
     public function setTaille(float $taille): static
     {
         $this->taille = $taille;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        $this->user->removeElement($user);
 
         return $this;
     }

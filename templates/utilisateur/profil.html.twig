@@ -2,6 +2,10 @@
 {% block title %}
 	{{parent()}}PROFIL
 {% endblock %}
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" href="css/style.css">
+{% endblock  %}
 {% block body %}
 	<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
 		PROFIL
@@ -39,5 +43,16 @@
                 <p> pas de catégories</p>
                 {% endif %}
 		{% endfor %}
-	
+		<hr class="text-warning" style= "color: rgb(255, 0, 153)!important" />
+	fichier qu'on nous a partagé :  
+	{% for p in app.user.partager %}
+		
+		{{p.nom}} 
+		
+		<small> ({{p.proprietaire.email}})  </small> 
+
+		<a href="{{path('telechargement-fichier', {'id':p.id})}}" target="_blank"><i class="bi bi-download text-black"></i>
+
+	{% endfor %}		
+
 {% endblock %}
